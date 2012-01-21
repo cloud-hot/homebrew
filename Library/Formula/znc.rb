@@ -8,6 +8,10 @@ class Znc < Formula
 
   depends_on 'pkg-config' => :build
   depends_on 'c-ares' => :optional
+  if ARGV.build_head?
+    depends_on 'autoconf' => :build
+    depends_on 'automake' => :build
+  end
 
   skip_clean 'bin/znc'
   skip_clean 'bin/znc-config'
@@ -18,14 +22,12 @@ class Znc < Formula
   end
 
   def install
-    if ARGV.build_head?
-      ENV['ACLOCAL_FLAGS'] = "--acdir=#{HOMEBREW_PREFIX}/share/aclocal"
-      system "./autogen.sh"
-    end
+    system "./autogen.sh" if ARGV.build_head?
 
     args = ["--prefix=#{prefix}", "--enable-extra"]
     args << "--enable-debug" if ARGV.include? '--enable-debug'
     system "./configure", *args
+
     system "make install"
   end
 end
