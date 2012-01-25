@@ -5,6 +5,8 @@ class Autoconf < Formula
   homepage 'http://www.gnu.org/software/autoconf'
   md5 'c3b5247592ce694f7097873aa07d66fe'
 
+  depends_on 'm4'
+
   keg_only <<-EOS.undent
     The OSX shipped autoconf is more than 5 years old, and missing many
     critical bug-fixes compared with the latest upstream.
